@@ -107,8 +107,9 @@ class InstallTests(unittest.TestCase):
         (self.home / "hooks.json").write_text(json.dumps(unrelated), encoding="utf-8")
         result = self.install()
         settings = json.loads((self.target / "runtime.json").read_text(encoding="utf-8"))
-        self.assertEqual(Path(settings["python"]), self.python)
-        self.assertEqual(Path(settings["data_dir"]), self.data)
+        # Windows 的 8.3 短名与完整名可能指向同一位置，应比较实际文件身份。
+        self.assertTrue(Path(settings["python"]).samefile(self.python))
+        self.assertTrue(Path(settings["data_dir"]).samefile(self.data))
         self.assertEqual(settings["device_address"], "AA:BB:CC:DD:EE:FF")
         self.assertIsNone(result["backup_dir"])
         document = json.loads((self.home / "hooks.json").read_text(encoding="utf-8"))
@@ -180,7 +181,7 @@ class InstallTests(unittest.TestCase):
                                   "-DataDir", str(self.data))
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         installed_python = Path(json.loads(result.stdout)["runtime_python"])
-        self.assertEqual(installed_python, self.data / "venv" / "Scripts" / "python.exe")
+        self.assertTrue(installed_python.samefile(self.data / "venv" / "Scripts" / "python.exe"))
         check = subprocess.run([str(installed_python), "-X", "utf8", "-B", "-c",
                                 "import sys; assert sys.prefix != sys.base_prefix"], capture_output=True)
         self.assertEqual(check.returncode, 0, check.stderr)
