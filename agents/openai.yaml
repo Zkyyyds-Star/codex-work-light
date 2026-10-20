@@ -1,0 +1,6 @@
+interface:
+  display_name: "codex工作灯"
+  short_description: "明确调用后将 ESP32 状态灯绑定当前聊天，以四种颜色持续显示任务状态"
+  default_prompt: "使用 $aaa-wudi（codex工作灯），开启状态灯并绑定当前聊天，以 75% 亮度跟踪任务状态。"
+policy:
+  allow_implicit_invocation: false

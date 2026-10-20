@@ -1,0 +1,26 @@
+# 本机配置和设备、聊天、身份信息
+runtime.json
+**/runtime.json
+*.key
+endpoint.json
+binding.json
+hooks.json
+*.log
+*.log.*
+*.tmp
+*-verification.json
+turns/
+backups/
+
+# Python 和编辑器生成文件
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
